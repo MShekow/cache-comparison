@@ -1,0 +1,6 @@
+.*
+!.env.example
+!.eslintrc.js
+
+README.md
+Dockerfile
