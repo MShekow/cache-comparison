@@ -1,0 +1,44 @@
+name: Docker Caching
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ] 
+  workflow_dispatch:
+
+
+jobs:
+  install-deps:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        # push: true
+        target: dependencies 
+        tags: user/app:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  test:
+    runs-on: ubuntu-latest
+    needs: install-deps
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        # push: true
+        target: tests 
+        tags: user/app:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
