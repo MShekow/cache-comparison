@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
   
 env:
-  cache_image: ghcr.io/mshekow/cache-comparison/cache:buildcache
+  cache_image: mshekow/cache-comparison:buildcache
 
 
 jobs:
@@ -16,12 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Log in to the GitHub container registry
+    - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Build and push
@@ -39,12 +38,11 @@ jobs:
     needs: install-deps
     steps:
     - uses: actions/checkout@v3
-    - name: Log in to the GitHub container registry
+    - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Build and push
@@ -62,12 +60,11 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v3
-    - name: Log in to the GitHub container registry
+    - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     - name: Build and push
