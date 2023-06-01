@@ -14,4 +14,4 @@ RUN directory-checksum --max-depth=4 . && yarn test
 #######################################
 FROM tests AS build
 
-RUN directory-checksum --max-depth=4 . yarn build
+RUN directory-checksum --max-depth=4 . && yarn build
