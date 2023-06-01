@@ -11,6 +11,6 @@ FROM dependencies AS tests
 RUN yarn test
 
 #######################################
-FROM dependencies AS build
+FROM tests AS build
 
 RUN yarn build
